@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "pekora"
+version = "1.0.0"
+description = "A command-line-calculator for Discord permission values"
+authors = ["celsius narhwal <hello@celsiusnarhwal.dev>"]
+readme = "README.md"
+license = "MIT"
+documentation = "https://pekora.celsiusnarhwal.dev"
+repository = "https://github.com/celsiusnarhwal/pekora"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+alianator = "^4.0.2"
+decorator = "^5.1.1"
+inflect = "^6.0.2"
+inquirerpy = "^0.3.4"
+py-cord = "^2.4.0"
+pyperclip = "1.8.1"
+typer = { extras = ["all"], version = "^0.7.0" }
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.11.0"
+rich-tracebacks = "^1.2.1"
+
+[tool.poetry.scripts]
+pekora = "pekora.cli:app"
+
+[tool.poe.tasks]
+format = { shell = "for hook in black isort prettier; do pre-commit run $hook --all-files; done" }
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
