@@ -8,4 +8,4 @@ Pekora adheres to [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
 This is the initial release of Pekora.
 
-[^1]: Based on version 1.0.0 of [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+[^1]: Based on [Keep a Changelog](https://keepachangelog.com).
