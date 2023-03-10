@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import re
-from enum import Enum, StrEnum, auto
+from enum import StrEnum, auto
 from typing import Self
 
 import alianator
@@ -33,7 +33,7 @@ class PekoraPermissions(discord.Permissions):
         return cls.__base__.__iter__(cls.__base__(self.value))
 
 
-class PekoraPattern(Enum):
+class PekoraPattern(StrEnum):
     # These values must be ordered by match precedence.
     GROUP = r"pekora\.\w+"
     INTEGER = r"\d+"
