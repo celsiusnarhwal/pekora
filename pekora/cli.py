@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 import sys
 from datetime import datetime
+from functools import partial
 
 import alianator
 import inflect as ifl
@@ -258,10 +259,12 @@ def make(
         message="What would you like to do with the result?",
         choices=[
             Choice(
-                value=lambda: pyperclip.copy(str(permissions)), name="Copy to clipboard"
+                value=partial(pyperclip.copy, str(permissions)),
+                name="Copy to clipboard",
             ),
             Choice(
-                value=lambda: read(
+                value=partial(
+                    read,
                     permission=str(permissions),
                     include=set(),
                     exclude=set(),
@@ -270,7 +273,7 @@ def make(
                 name="Read",
             ),
             Choice(
-                value=lambda: make(ctx=ctx, start=str(permissions)),
+                value=partial(make, ctx=ctx, start=str(permissions)),
                 name="Restart using this result as the starting value",
             ),
             Choice(value=lambda: ..., name="Nothing"),
