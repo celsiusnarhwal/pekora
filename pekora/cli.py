@@ -69,7 +69,7 @@ def calculate(
         if len(parts) > 3 and set(parts).intersection({"==", "!="}):
             raise Otsupeko(
                 "An equality comparator may not be used in the same expression as other comparators "
-                "(including other equality comparators)."
+                "(including other equality comparators).",
             )
 
         result = eval(
