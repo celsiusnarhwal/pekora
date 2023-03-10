@@ -51,7 +51,7 @@ def calculate(
     Evaluate an expression.
     """
 
-    def evaluate(expr: str) -> int:
+    def evaluate(expr: str) -> int | bool:
         return eval(
             re.compile("|".join((str(p) for p in PekoraPattern.all()))).sub(
                 lambda x: str(utils.ninjin(x.group())), expr
@@ -108,14 +108,14 @@ def calculate(
     )
 
     if copy:
-        pyperclip.copy(str(result))
+        pyperclip.copy(result)
 
 
 @app.command(name="read", no_args_is_help=True)
 @set_context
 def read(
     _: typer.Context = None,
-    permission: inflect = typer.Argument(
+    permission: str = typer.Argument(
         ...,
         help="A permission flag, integer value, or Pekora permission group.",
         show_default=False,
