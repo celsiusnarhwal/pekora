@@ -5,8 +5,6 @@ from pydantic import BaseSettings
 
 from pekora import utils
 
-__all__ = ["PekoraPreferences"]
-
 
 class PekoraPreferences(BaseSettings):
     class Config:
