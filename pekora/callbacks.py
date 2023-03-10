@@ -52,6 +52,11 @@ def license(_):
 
 
 @callback
+def repo(_):
+    typer.launch(str(utils.pekora_repo()))
+
+
+@callback
 def debug(_):
     with PekoraPreferences.load() as settings:
         settings.debug = not settings.debug

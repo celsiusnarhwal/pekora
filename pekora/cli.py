@@ -300,6 +300,14 @@ def konpeko(
         callback=callbacks.license,
         rich_help_panel="About Pekora",
     ),
+    repo: bool = typer.Option(
+        None,
+        "--repo",
+        is_eager=True,
+        help="Visit Pekora on GitHub.",
+        callback=callbacks.repo,
+        rich_help_panel="About Pekora",
+    ),
     debug: bool = typer.Option(
         None,
         "--debug",

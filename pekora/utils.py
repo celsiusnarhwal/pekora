@@ -60,7 +60,7 @@ def ninjin(term: str) -> str | int:
 
 
 def pekora_home() -> Path:
-    home = Path(typer.get_app_dir("pekora"))
+    home = Path(typer.get_app_dir("Pekora"))
     home.mkdir(exist_ok=True)
     return home
 
