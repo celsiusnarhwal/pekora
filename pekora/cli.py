@@ -49,49 +49,41 @@ def calculate(
     Evaluate an expression.
     """
 
-    def evaluate(expr: str) -> int | bool:
+    def evaluate(expr: str) -> int:
         return eval(
             re.compile("|".join((str(p) for p in PekoraPattern.all()))).sub(
                 lambda x: str(utils.ninjin(x.group())), expr
             )
         )
 
+    # Split the expression on its comparators.
     parts = list(filter(None, re.split(rf"({PekoraPattern.COMPARATOR})", expression)))
 
-    match len(parts):
-        case 1:
-            result = evaluate(*parts)
-        case 2 | 4:
-            raise Otsupeko("Comparators must have an expression on both sides.")
-        case 3:
-            left, comparator, right = parts
+    # No comparators.
+    if len(parts) == 1:
+        result = evaluate(*parts)
 
-            # noinspection PyUnusedLocal
-            left = PekoraPermissions(evaluate(left))
-            # noinspection PyUnusedLocal
-            right = PekoraPermissions(evaluate(right))
+    # Balanced comparators.
+    elif len(parts) % 2:
+        # Equality comparators must stand alone.
+        if len(parts) > 3 and set(parts).intersection({"==", "!="}):
+            raise Otsupeko(
+                "An equality comparator may not be used in the same expression as other comparators "
+                "(including other equality comparators)."
+            )
 
-            result = eval(f"left {comparator} right")
-        case 5:
-            left, op1, center, op2, right = parts
+        result = eval(
+            "".join(
+                [
+                    part if index % 2 else str(evaluate(part))
+                    for index, part in enumerate(parts)
+                ]
+            )
+        )
 
-            if {op1, op2}.intersection({"==", "!="}):
-                raise Otsupeko("Equality comparators are not allowed in pairs.")
-
-            match [op1, op2]:
-                case ["<" | "<=", ">" | ">="] | [">" | ">=", "<" | "<="]:
-                    raise Otsupeko(f"Comparator {op2} may not follow comparator {op1}.")
-
-            # noinspection PyUnusedLocal
-            left = PekoraPermissions(evaluate(left))
-            # noinspection PyUnusedLocal
-            center = PekoraPermissions(evaluate(center))
-            # noinspection PyUnusedLocal
-            right = PekoraPermissions(evaluate(right))
-
-            result = eval(f"left {op1} center {op2} right")
-        case _:
-            raise Otsupeko("Expressions may only have up to two comparators.")
+    # Imbalanced comparators.
+    else:
+        raise Otsupeko("Comparators must have an expression on both sides.")
 
     if result < 0:
         # If the result is negative, this will make it positive without losing any permission data.
