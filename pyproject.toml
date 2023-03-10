@@ -11,7 +11,6 @@ repository = "https://github.com/celsiusnarhwal/pekora"
 [tool.poetry.dependencies]
 python = "^3.11"
 alianator = "^4.0.2"
-attrs = "^22.2.0"
 colour = "^0.1.5"
 decorator = "^5.1.1"
 inflect = "^6.0.2"
@@ -21,9 +20,11 @@ pyperclip = "1.8.1"
 yarl = "^1.8.2"
 typer = { extras = ["all"], version = "^0.7.0" }
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.group.repl.dependencies]
 ipython = "^8.11.0"
-rich-tracebacks = "^1.2.1"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs-material = "^9.1.2"
 
 [tool.poetry.scripts]
 pekora = "pekora.cli:app"
