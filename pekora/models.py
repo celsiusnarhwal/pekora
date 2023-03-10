@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import re
 from enum import Enum, StrEnum, auto
+from typing import Self
 
 import alianator
-import click
 import discord
 from pydantic import BaseModel, validate_arguments
 
@@ -13,24 +13,27 @@ __all__ = [
     "PekoraPattern",
     "PekoraPermissionData",
     "PekoraPermissionSet",
-    "OtsupekoException",
 ]
 
 
-class PekoraPatternParent(Enum):
-    def __new__(cls, value):
-        member = object.__new__(cls)
-        member._value_ = re.compile(value)
-        return member
+class PekoraPermissions(discord.Permissions):
+    @property
+    def flags(self) -> list[str]:
+        return [perm for perm, granted in self if granted]
+
+    @classmethod
+    def from_flags(cls, *flags: str) -> Self:
+        return cls(**{flag: True for flag in flags})
+
+    def __str__(self):
+        return str(self.value)
+
+    def __iter__(self):
+        cls = type(self)
+        return cls.__base__.__iter__(cls.__base__(self.value))
 
 
-class PekoraPattern(PekoraPatternParent):
-    """
-    Enumerates useful regular expressions.
-
-    All members of this enumeration are :class:`re.Pattern` objects.
-    """
-
+class PekoraPattern(Enum):
     # These values must be ordered by match precedence.
     GROUP = r"pekora\.\w+"
     INTEGER = r"\d+"
@@ -39,42 +42,19 @@ class PekoraPattern(PekoraPatternParent):
     UNSUPPORTED = "[*/%@=]"
 
     @classmethod
-    def combine(cls, *patterns: PekoraPattern | re.Pattern | str) -> re.Pattern:
-        return re.compile(
-            "|".join(
-                pattern if type(pattern) is str else pattern.pattern
-                for pattern in patterns
-            )
-        )
-
-    # noinspection PyArgumentList
-    @classmethod
-    def all(cls) -> re.Pattern:
-        return cls.combine(*cls)
+    def all(cls) -> tuple[Self]:
+        return tuple(iter(cls))
 
     @classmethod
-    def permissions(cls) -> re.Pattern:
-        return cls.combine(cls.GROUP, cls.INTEGER, cls.FLAG)
+    def permissions(cls) -> tuple[Self]:
+        return cls.GROUP, cls.INTEGER, cls.FLAG
 
     @property
     def regex(self) -> re.Pattern:
-        return self.value
-
-    @property
-    def pattern(self):
-        return self.regex.pattern
-
-
-class PekoraPermissions(discord.Permissions):
-    def flags(self) -> list[str]:
-        return [perm for perm, granted in self if granted]
+        return re.compile(self.value)
 
     def __str__(self):
-        return str(self.value)
-
-    def __iter__(self):
-        cls = type(self)
-        return cls.__base__.__iter__(cls.__base__(self.value))
+        return self.value
 
 
 class PekoraPermissionData(BaseModel):
@@ -106,14 +86,6 @@ class PekoraPermissionSet(BaseModel):
                     name=alianator.resolve(perm, escape_mentions=False)[0],
                     value=str(PekoraPermissions(**{perm: True}).value),
                 )
-                for perm in permissions.flags()
+                for perm in permissions.flags
             ],
         )
-
-
-class OtsupekoException(click.ClickException):
-    """
-    The exception raised by :func:`pekora.utils.Otsupeko`.
-
-    Use :func:`pekora.utils.Otsupeko` rather than instantiating this class directly.
-    """

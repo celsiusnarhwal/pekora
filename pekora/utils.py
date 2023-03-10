@@ -1,14 +1,15 @@
 from __future__ import annotations
 
-from typing import Annotated, Callable
+from pathlib import Path
+from typing import Callable
 
 import typer
-from decorator import decorator
-from pydantic import Field, validate_arguments
+from colour import Color
+from pydantic import validate_arguments
+from yarl import URL
 
+from pekora.exceptions import Otsupeko
 from pekora.models import *
-
-CONTEXT: typer.Context = None
 
 
 @validate_arguments
@@ -58,36 +59,19 @@ def ninjin(term: str) -> str | int:
     raise Otsupeko(f"Invalid value: {term}")
 
 
-# noinspection PyPep8Naming
-@validate_arguments
-def Otsupeko(msg: str, code: Annotated[int, Field(ge=1, le=255)] = 1):
-    """
-    An exception that causes Pekora to exit with a non-zero exit code.
-
-    For code 0 exits, use :class:`typer.Exit()` instead.
-
-    Parameters
-    ----------
-    msg : str
-        The error message to display.
-    code : int, defaul: 1
-        The exit code to return.
-
-    Examples
-    --------
-    >>> raise Otsupeko("Something went wrong.")
-    """
-    exception = OtsupekoException(msg.strip())
-    exception.exit_code = code
-    setattr(exception, "ctx", CONTEXT)
-    return exception
+def pekora_home() -> Path:
+    home = Path(typer.get_app_dir("pekora"))
+    home.mkdir(exist_ok=True)
+    return home
 
 
-@decorator
-def set_context(func: Callable, *args, **kwargs):
-    """
-    A decorator that sets :data:`pekora.utils.CONTEXT` to the first argument of the decorated function.
-    """
-    global CONTEXT
-    CONTEXT = args[0]
-    return func(*args, **kwargs)
+def pekora_repo() -> URL:
+    return URL("https://github.com/celsiusnarhwal/pekora")
+
+
+def pekora_blue() -> Color:
+    return Color("#b0bfe9")
+
+
+def debug_epilog() -> str:
+    return "[dim]Debug mode is [green]on[/]. Turn it off with [bold cyan]pekora --debug.[/]"

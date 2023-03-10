@@ -11,11 +11,14 @@ repository = "https://github.com/celsiusnarhwal/pekora"
 [tool.poetry.dependencies]
 python = "^3.11"
 alianator = "^4.0.2"
+attrs = "^22.2.0"
+colour = "^0.1.5"
 decorator = "^5.1.1"
 inflect = "^6.0.2"
 inquirerpy = "^0.3.4"
 py-cord = "^2.4.0"
 pyperclip = "1.8.1"
+yarl = "^1.8.2"
 typer = { extras = ["all"], version = "^0.7.0" }
 
 [tool.poetry.group.dev.dependencies]
@@ -27,6 +30,13 @@ pekora = "pekora.cli:app"
 
 [tool.poe.tasks]
 format = { shell = "for hook in black isort prettier; do pre-commit run $hook --all-files; done" }
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
 
 [build-system]
 requires = ["poetry-core"]

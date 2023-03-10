@@ -1,42 +1,44 @@
 from __future__ import annotations
 
-import json
 import re
 import sys
 from datetime import datetime
-from importlib import metadata
-from pathlib import Path
 
 import alianator
 import inflect as ifl
 import pyperclip
 import typer
 from InquirerPy.base import Choice
-from rich import print
-from rich.json import JSON
-from rich.markdown import Markdown
+from rich import print, print_json
 from rich.panel import Panel
 from rich.table import Table
 
-from pekora import prompts
+from pekora import callbacks, prompts, utils
+from pekora.context import set_context
+from pekora.exceptions import *
 from pekora.models import *
-from pekora.utils import Otsupeko, ninjin, set_context
+from pekora.peko import Pekora
+from pekora.settings import PekoraSettings
 
-app = typer.Typer(rich_markup_mode="rich")
+app = Pekora()
+settings = PekoraSettings.load()
+
 inflect = ifl.engine()
 
 
-# noinspection PyUnusedLocal
-@app.command(name="calc")
+@app.command(name="calc", no_args_is_help=True)
 @set_context
 def calculate(
-    context: typer.Context = None,
-    expression: str = typer.Argument(..., help="The expression to evaluate."),
+    _: typer.Context = None,
+    expression: str = typer.Argument(
+        ..., help="The expression to evaluate.", show_default=False
+    ),
     raw: bool = typer.Option(
         None,
         "--raw",
         "-r",
-        help="Don't use pretty formatting in the result. Ideal for piping to [cyan]pekora read[/] or other commands.",
+        help="Don't use pretty formatting in the output. Ideal for piping to [bold cyan]pekora read[/] or "
+        "other commands.",
     ),
     copy: bool = typer.Option(
         None,
@@ -50,25 +52,52 @@ def calculate(
     """
 
     def evaluate(expr: str) -> int:
-        return eval(PekoraPattern.all().sub(lambda x: str(ninjin(x.group())), expr))
+        return eval(
+            re.compile("|".join((str(p) for p in PekoraPattern.all()))).sub(
+                lambda x: str(utils.ninjin(x.group())), expr
+            )
+        )
 
-    parts = re.split(rf"({PekoraPattern.COMPARATOR.pattern})", expression)
+    parts = list(filter(None, re.split(rf"({PekoraPattern.COMPARATOR})", expression)))
 
-    if len(parts) == 2:
-        raise Otsupeko("Comparators must have an expression on both sides.")
+    match len(parts):
+        case 1:
+            result = evaluate(*parts)
+        case 2 | 4:
+            raise Otsupeko("Comparators must have an expression on both sides.")
+        case 3:
+            left, comparator, right = parts
 
-    if len(parts) > 3:
-        raise Otsupeko("Expressions may only have up to one comparator.")
+            # noinspection PyUnusedLocal
+            left = PekoraPermissions(evaluate(left))
+            # noinspection PyUnusedLocal
+            right = PekoraPermissions(evaluate(right))
 
-    if len(parts) == 1:
-        result = evaluate(parts[0])
-    else:
-        left, comparator, right = parts
+            result = eval(f"left {comparator} right")
+        case 5:
+            left, op1, center, op2, right = parts
 
-        left = PekoraPermissions(evaluate(left))
-        right = PekoraPermissions(evaluate(right))
+            if {op1, op2}.intersection({"==", "!="}):
+                raise Otsupeko("Equality comparators are not allowed in pairs.")
 
-        result = eval(f"left {comparator} right")
+            match [op1, op2]:
+                case ["<" | "<=", ">" | ">="] | [">" | ">=", "<" | "<="]:
+                    raise Otsupeko(f"Comparator {op2} may not follow comparator {op1}.")
+
+            # noinspection PyUnusedLocal
+            left = PekoraPermissions(evaluate(left))
+            # noinspection PyUnusedLocal
+            center = PekoraPermissions(evaluate(center))
+            # noinspection PyUnusedLocal
+            right = PekoraPermissions(evaluate(right))
+
+            result = eval(f"left {op1} center {op2} right")
+        case _:
+            raise Otsupeko("Expressions may only have up to two comparators.")
+
+    if result < 0:
+        # If the result is negative, this will make it positive without losing any permission data.
+        result = PekoraPermissions.from_flags(*PekoraPermissions(result).flags)
 
     print(
         result
@@ -82,15 +111,15 @@ def calculate(
         pyperclip.copy(str(result))
 
 
-# noinspection PyUnusedLocal
-@app.command(name="read")
+@app.command(name="read", no_args_is_help=True)
 @set_context
 def read(
-    ctx: typer.Context = None,
-    value: str = typer.Argument(
+    _: typer.Context = None,
+    permission: inflect = typer.Argument(
         ...,
         help="A permission flag, integer value, or Pekora permission group.",
         show_default=False,
+        allow_dash=True,
     ),
     include: list[PekoraPermissionData.Category] = typer.Option(
         None,
@@ -99,6 +128,7 @@ def read(
         "-i",
         help="Explicitly include a data category, excluding all others not passed with -i.",
         show_default=False,
+        rich_help_panel="Format Options",
     ),
     exclude: list[PekoraPermissionData.Category] = typer.Option(
         None,
@@ -108,46 +138,58 @@ def read(
         "-x",
         help="Explicitly exclude a data category. Supersedes -i.",
         show_default=False,
+        rich_help_panel="Format Options",
     ),
-    as_json: bool = typer.Option(None, "--json", help="Output the result as JSON."),
+    as_json: bool = typer.Option(
+        None,
+        "--json",
+        help="Output the result as JSON.",
+        rich_help_panel="Format Options",
+    ),
+    copy: bool = typer.Option(
+        None,
+        "--copy",
+        "-c",
+        help="Copy a JSON representation of the result to the clipboard (does not require --json).",
+    ),
 ):
     """
     Read a permission.
     """
-    if value == "-":
-        value = sys.stdin.read()
+    if permission == "-":
+        permission = sys.stdin.read()
 
     if not re.match(
-        PekoraPattern.permissions().pattern + "$",
-        value,
+        "|".join(map(str, PekoraPattern.permissions())) + "$",
+        permission,
     ):
-        raise Otsupeko(f"Invalid permission: {value}")
+        raise Otsupeko(f"Invalid permission: {permission}")
 
     include = (set(include) or set(PekoraPermissionData.Category)) - set(exclude)
 
     if not include:
         raise Otsupeko("You must include at least one data category.")
 
-    permset = PekoraPermissionSet.from_permissions(PekoraPermissions(ninjin(value)))
+    permset = PekoraPermissionSet.from_permissions(
+        PekoraPermissions(utils.ninjin(permission))
+    )
+
+    json = permset.json(
+        include={
+            "permissions": {"__all__": {category.value for category in include}},
+            "derived_from": True,
+        }
+    )
 
     if as_json:
-        print(
-            JSON(
-                json.dumps(
-                    permset.dict(
-                        include={
-                            "permissions": {
-                                "__all__": {category.value for category in include}
-                            },
-                            "derived_from": True,
-                        }
-                    )
-                )
-            )
-        )
+        print_json(json)
     else:
         table_caption = f"Derived from: {permset.derived_from}"
-        table = Table(caption=table_caption, min_width=len(table_caption))
+        table = Table(
+            caption=table_caption,
+            min_width=len(table_caption),
+            border_style=utils.pekora_blue().hex,
+        )
 
         table.add_column("Flag", style="cyan")
         table.add_column("Name", style="yellow")
@@ -161,6 +203,9 @@ def read(
                 table.columns.remove(col)
 
         print(table)
+
+    if copy:
+        pyperclip.copy(json)
 
 
 # noinspection PyUnusedLocal
@@ -178,21 +223,21 @@ def make(
     """
     Interactively create a permission.
     """
+    permissions = PekoraPermissions()
+
     if start:
         if not re.match(
-            PekoraPattern.permissions() + "$",
+            "|".join(map(str, PekoraPattern.permissions())) + "$",
             start,
         ):
             raise Otsupeko(f"Invalid expression: {start}")
 
-        permissions = PekoraPermissions(ninjin(start))
-    else:
-        permissions = PekoraPermissions()
+        permissions += PekoraPermissions(utils.ninjin(start))
 
     choices = []
     for flag, name in alianator.resolutions(escape_mentions=False).items():
         if not any(
-            PekoraPermissions(**{c.value: True}) == PekoraPermissions(**{flag: True})
+            PekoraPermissions.from_flags(c.value) == PekoraPermissions.from_flags(flag)
             for c in choices
         ):
             choices.append(
@@ -205,7 +250,7 @@ def make(
         multiselect=True,
         border=True,
         transformer=lambda v: inflect.no("permission", len(v)),
-        filter=lambda v: PekoraPermissions(**{choice: True for choice in v}),
+        filter=lambda v: PekoraPermissions.from_flags(*v),
     ).execute()
 
     print(
@@ -214,7 +259,7 @@ def make(
         )
     )
 
-    post = prompts.select(
+    prompts.select(
         message="What would you like to do with the result?",
         choices=[
             Choice(
@@ -222,7 +267,10 @@ def make(
             ),
             Choice(
                 value=lambda: read(
-                    value=str(permissions), include=set(), exclude=set(), as_json=False
+                    permission=str(permissions),
+                    include=set(),
+                    exclude=set(),
+                    as_json=False,
                 ),
                 name="Read",
             ),
@@ -237,55 +285,42 @@ def make(
 
 # noinspection PyUnusedLocal
 @app.callback(
-    epilog=f"Pekora © {datetime.now().year} celsius narhwal. Licensed under MIT (see --license)."
+    epilog=f"Pekora © {datetime.now().year} celsius narhwal."
+    + f"\n\n{utils.debug_epilog()}"
+    if settings.debug
+    else ""
 )
 def konpeko(
-    view_license: bool = typer.Option(
+    docs: bool = typer.Option(
         None,
-        "--license",
+        "--docs",
         is_eager=True,
-        help="View Pekora's license.",
-        callback=lambda v: (
-            print(
-                Panel(
-                    Markdown(
-                        (
-                            next(
-                                p
-                                for p in Path(__file__).parents
-                                if (p / "LICENSE.md").exists()
-                            )
-                            / "LICENSE.md"
-                        ).read_text()
-                    ),
-                    title="License",
-                    border_style="#b0bfe9",
-                )
-            ),
-            exec("raise typer.Exit()"),
-        )
-        if v
-        else ...,
+        help="View Pekora's documentation.",
+        callback=callbacks.docs,
+        rich_help_panel="About Pekora",
     ),
     version: bool = typer.Option(
         None,
         "--version",
-        "-v",
         is_eager=True,
         help="View Pekora's version.",
-        callback=lambda v: (
-            print(
-                Panel(
-                    f"Pekora [cyan]{metadata.version('pekora')}[/]",
-                    title="Version",
-                    title_align="left",
-                    border_style="#b0bfe9",
-                )
-            ),
-            exec("raise typer.Exit()"),
-        )
-        if v
-        else ...,
+        callback=callbacks.version,
+        rich_help_panel="About Pekora",
+    ),
+    license: bool = typer.Option(
+        None,
+        "--license",
+        is_eager=True,
+        help="View Pekora's license.",
+        callback=callbacks.license,
+        rich_help_panel="About Pekora",
+    ),
+    debug: bool = typer.Option(
+        None,
+        "--debug",
+        is_eager=True,
+        hidden=True,
+        callback=callbacks.debug,
     ),
 ):
     """
