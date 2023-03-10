@@ -8,7 +8,7 @@ from colour import Color
 from pydantic import validate_arguments
 from yarl import URL
 
-from pekora.exceptions import Otsupeko
+from pekora.exceptions import *
 from pekora.models import *
 
 
@@ -74,4 +74,4 @@ def pekora_blue() -> Color:
 
 
 def debug_epilog() -> str:
-    return "[dim]Debug mode is [green]on[/]. Turn it off with [bold cyan]pekora --debug.[/]"
+    return "[dim]Debug mode is [green]on[/]. Turn it off with [bold cyan]pekora --debug[/]."

@@ -8,7 +8,7 @@ from rich.markdown import Markdown
 from rich.panel import Panel
 
 from pekora import utils
-from pekora.settings import PekoraSettings
+from pekora.prefs import PekoraPreferences
 
 
 @decorator
@@ -53,9 +53,9 @@ def license(_):
 
 @callback
 def debug(_):
-    settings = PekoraSettings.load()
-    settings.debug = not settings.debug
-    status = "[green]enabled[/]" if settings.debug else "[red]disabled[/]"
+    with PekoraPreferences.load() as settings:
+        settings.debug = not settings.debug
+        status = "[green]enabled[/]" if settings.debug else "[red]disabled[/]"
 
     print(
         Panel(

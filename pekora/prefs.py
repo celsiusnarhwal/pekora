@@ -5,12 +5,12 @@ from pydantic import BaseSettings
 
 from pekora import utils
 
-__all__ = ["PekoraSettings"]
+__all__ = ["PekoraPreferences"]
 
 
-class PekoraSettings(BaseSettings):
+class PekoraPreferences(BaseSettings):
     class Config:
-        extra = "ignore"
+        extra = "forbid"
 
     file: ClassVar[Path] = utils.pekora_home() / "config.json"
 
@@ -23,6 +23,11 @@ class PekoraSettings(BaseSettings):
 
         return cls.parse_file(cls.file)
 
-    def __setattr__(self, key, value):
-        super().__setattr__(key, value)
+    def save(self):
         self.file.write_text(self.json())
+
+    def __enter__(self) -> Self:
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.save()

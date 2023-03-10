@@ -18,11 +18,8 @@ from pekora.context import set_context
 from pekora.exceptions import *
 from pekora.models import *
 from pekora.peko import Pekora
-from pekora.settings import PekoraSettings
 
 app = Pekora()
-settings = PekoraSettings.load()
-
 inflect = ifl.engine()
 
 
@@ -121,7 +118,7 @@ def read(
         show_default=False,
         allow_dash=True,
     ),
-    include: list[PekoraPermissionData.Category] = typer.Option(
+    include: list[PekoraProperties.Category] = typer.Option(
         None,
         "--with",
         "--include",
@@ -130,7 +127,7 @@ def read(
         show_default=False,
         rich_help_panel="Format Options",
     ),
-    exclude: list[PekoraPermissionData.Category] = typer.Option(
+    exclude: list[PekoraProperties.Category] = typer.Option(
         None,
         "--without",
         "--exclude",
@@ -165,14 +162,12 @@ def read(
     ):
         raise Otsupeko(f"Invalid permission: {permission}")
 
-    include = (set(include) or set(PekoraPermissionData.Category)) - set(exclude)
+    include = (set(include) or set(PekoraProperties.Category)) - set(exclude)
 
     if not include:
         raise Otsupeko("You must include at least one data category.")
 
-    permset = PekoraPermissionSet.from_permissions(
-        PekoraPermissions(utils.ninjin(permission))
-    )
+    permset = PekoraPack.from_permissions(PekoraPermissions(utils.ninjin(permission)))
 
     json = permset.json(
         include={
@@ -284,12 +279,7 @@ def make(
 
 
 # noinspection PyUnusedLocal
-@app.callback(
-    epilog=f"Pekora © {datetime.now().year} celsius narhwal."
-    + f"\n\n{utils.debug_epilog()}"
-    if settings.debug
-    else ""
-)
+@app.callback(epilog=f"Pekora © {datetime.now().year} celsius narhwal.")
 def konpeko(
     docs: bool = typer.Option(
         None,

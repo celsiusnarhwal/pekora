@@ -11,8 +11,8 @@ from pydantic import BaseModel, validate_arguments
 __all__ = [
     "PekoraPermissions",
     "PekoraPattern",
-    "PekoraPermissionData",
-    "PekoraPermissionSet",
+    "PekoraProperties",
+    "PekoraPack",
 ]
 
 
@@ -57,7 +57,7 @@ class PekoraPattern(Enum):
         return self.value
 
 
-class PekoraPermissionData(BaseModel):
+class PekoraProperties(BaseModel):
     class Category(StrEnum):
         FLAG = auto()
         NAME = auto()
@@ -71,9 +71,9 @@ class PekoraPermissionData(BaseModel):
         return iter((self.flag, self.name, self.value))
 
 
-class PekoraPermissionSet(BaseModel):
+class PekoraPack(BaseModel):
     derived_from: int
-    permissions: list[PekoraPermissionData]
+    permissions: list[PekoraProperties]
 
     @classmethod
     @validate_arguments(config=dict(arbitrary_types_allowed=True))
@@ -81,11 +81,11 @@ class PekoraPermissionSet(BaseModel):
         return cls(
             derived_from=permissions.value,
             permissions=[
-                PekoraPermissionData(
-                    flag=perm,
-                    name=alianator.resolve(perm, escape_mentions=False)[0],
-                    value=str(PekoraPermissions(**{perm: True}).value),
+                PekoraProperties(
+                    flag=flag,
+                    name=alianator.resolve(flag, escape_mentions=False)[0],
+                    value=str(PekoraPermissions.from_flags(flag).value),
                 )
-                for perm in permissions.flags
+                for flag in permissions.flags
             ],
         )

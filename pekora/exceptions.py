@@ -3,7 +3,7 @@ from click import ClickException
 from pekora.context import get_context
 
 
-class PekoraException(ClickException):
+class PekoraProblem(ClickException):
     """
     Base exception for Pekora.
 
@@ -16,7 +16,7 @@ class PekoraException(ClickException):
         super().__init__(message.strip())
 
 
-class Otsupeko(PekoraException):
+class Otsupeko(PekoraProblem):
     """
     An exception that signals Pekora to perform a nonzero exit.
 
