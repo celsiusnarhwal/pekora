@@ -231,46 +231,52 @@ def make(
             choices.append(
                 Choice(value=flag, name=name, enabled=getattr(permissions, flag))
             )
+    try:
+        permissions += prompts.fuzzy(
+            message="Choose some permissions. Type to search.",
+            choices=choices,
+            multiselect=True,
+            border=True,
+            transformer=lambda v: inflect.no("permission", len(v)),
+            filter=lambda v: PekoraPermissions.from_flags(*v),
+            raise_keyboard_interrupt=True,
+        ).execute()
 
-    permissions += prompts.fuzzy(
-        message="Choose some permissions. Type to search.",
-        choices=choices,
-        multiselect=True,
-        border=True,
-        transformer=lambda v: inflect.no("permission", len(v)),
-        filter=lambda v: PekoraPermissions.from_flags(*v),
-    ).execute()
-
-    print(
-        Panel(
-            f"[cyan]{permissions}[/]", title="Result", title_align="left", style="green"
+        print(
+            Panel(
+                f"[cyan]{permissions}[/]",
+                title="Result",
+                title_align="left",
+                style="green",
+            )
         )
-    )
 
-    prompts.select(
-        message="What would you like to do with the result?",
-        choices=[
-            Choice(
-                value=partial(pyperclip.copy, str(permissions)),
-                name="Copy to clipboard",
-            ),
-            Choice(
-                value=partial(
-                    read,
-                    permission=str(permissions),
-                    include=set(),
-                    exclude=set(),
-                    as_json=False,
+        prompts.select(
+            message="What would you like to do with the result?",
+            choices=[
+                Choice(
+                    value=partial(pyperclip.copy, str(permissions)),
+                    name="Copy to clipboard",
                 ),
-                name="Read",
-            ),
-            Choice(
-                value=partial(make, ctx=ctx, start=str(permissions)),
-                name="Restart using this result as the starting value",
-            ),
-            Choice(value=lambda: ..., name="Nothing"),
-        ],
-    ).execute()()
+                Choice(
+                    value=partial(
+                        read,
+                        permission=str(permissions),
+                        include=set(),
+                        exclude=set(),
+                        as_json=False,
+                    ),
+                    name="Read",
+                ),
+                Choice(
+                    value=partial(make, ctx=ctx, start=str(permissions)),
+                    name="Restart using this result as the starting value",
+                ),
+                Choice(value=lambda: ..., name="Nothing"),
+            ],
+        ).execute()()
+    except KeyboardInterrupt:
+        typer.Exit()
 
 
 # noinspection PyUnusedLocal

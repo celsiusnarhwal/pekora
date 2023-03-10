@@ -28,7 +28,7 @@ def prompt_decorator(func):
 
             long_instruction = ""
 
-        overrides = {
+        defaults = {
             "keybindings": keybindings,
             "long_instruction": long_instruction,
             "qmark": "•",
@@ -37,8 +37,8 @@ def prompt_decorator(func):
             "raise_keyboard_interrupt": True,
         }
 
-        for key, value in overrides.items():
-            kwargs[key] = kwargs.get(key) or value
+        for key, value in defaults.items():
+            kwargs.setdefault(key, value)
 
         return func(*args, **kwargs)
 
