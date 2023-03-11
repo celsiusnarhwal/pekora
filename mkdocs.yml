@@ -13,7 +13,7 @@ copyright: Copyright &copy; 2023-present celsius narhwal
 # Configuration
 theme:
   name: material
-  custom_dir: overrides
+  custom_dir: docs/overrides
   features:
     - announce.dismiss
     - content.action.view
@@ -28,8 +28,6 @@ theme:
     # - navigation.instant
     # - navigation.prune
     - navigation.sections
-    - navigation.tabs
-    # - navigation.tabs.sticky
     - navigation.top
     - navigation.tracking
     - search.highlight
@@ -104,8 +102,8 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.magiclink:
       repo_url_shorthand: true
-      user: squidfunk
-      repo: mkdocs-material
+      user: celsiusnarhwal
+      repo: pekora
   - pymdownx.mark
   - pymdownx.smartsymbols
   - pymdownx.superfences:
@@ -118,3 +116,22 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde
+  - pymdownx.arithmatex:
+      generic: true
+
+nav:
+  - Introduction: index.md
+  - Installing Pekora: install.md
+  - Calculating permissions: calculate.md
+
+extra_css:
+  - css/termynal.css
+  - css/extra.css
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js
+  - js/termynal.js
+  - js/extra.js
+  - js/mathjax.js
