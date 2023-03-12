@@ -41,18 +41,25 @@ def ninjin(term: str) -> str | int:
 
     # Handle Pekora permission groups.
     if match := PekoraPattern.GROUP.regex.match(term):
-        if isinstance(
-            group := getattr(PekoraPermissions, match.group("group"), None), Callable
-        ):
-            if isinstance(permissions := group(), PekoraPermissions):
-                return permissions.value
+        try:
+            if isinstance(
+                group := getattr(PekoraPermissions, match.group("group")), Callable
+            ):
+                if isinstance(permissions := group(), PekoraPermissions):
+                    return permissions.value
+                else:
+                    raise TypeError
+            else:
+                raise AttributeError
+        except (AttributeError, TypeError):
+            raise Otsupeko(f"{term} is not a valid Pekora permission group.")
 
     # Handle unsupported operators.
     if PekoraPattern.UNSUPPORTED.regex.match(term):
         raise Otsupeko(f"Unsupported operator: {term}")
 
     # Handle other invalid input.
-    raise Otsupeko(f"Invalid value: {term}")
+    raise Otsupeko(f"Invalid permission value: {term}")
 
 
 def pekora_home() -> Path:
