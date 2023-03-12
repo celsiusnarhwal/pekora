@@ -17,8 +17,8 @@ $ pekora calc "read_messages + send_messages"
 contain three types of values: **permission values**, **operators**, and **comparators**.
 
 !!! tip
-You don't have to quote a Pekora expresssion that only contains one value. You should probably get in the habit
-of doing so anyway, though.
+    You don't have to quote a Pekora expresssion that only contains one value. `pekora calc "3072"`, for instance, 
+    is just as valid as `pekora calc 3072`.
 
 ## Permission Values
 
@@ -91,8 +91,8 @@ Integers are, well, integers. Like we covered in the [introduction](/), any set 
 represented as an integer. You can use these integers in Pekora expressions.
 
 !!! example "Technical Note"
-Behind the scenes, Discord permission flags and Pekora permission groups are converted to integers before a
-Pekora expression is evaluated.
+    Behind the scenes, Discord permission flags and Pekora permission groups are converted to integers before a
+    Pekora expression is evaluated.
 
 <div class="termy">
 
@@ -115,7 +115,7 @@ $ pekora calc "3072 + embed_links + attach_files"
 ### Pekora permission groups
 
 Pekora permission groups are shorthands for predefined sets of permissions. You can use them in Pekora expressions
-with the syntax `pekora.<group>`, where `<group`> is the name of the desired Pekora permission group.
+with the syntax `pekora.<group>`, where `<group>` is the name of the desired Pekora permission group.
 
 <div class="termy">
 
@@ -337,7 +337,7 @@ represent all permissions that are in **either** $A$ or $B$.
 
 !!! tip
 
-    You can also use the union `|` operator.
+    You can also use the union (`|`) operator.
 
 ### Subtraction (`-`)
 
@@ -353,6 +353,13 @@ the resulting value will represent all permissions that are in **both** $A$ and 
 
 Pekora supports the use of parantheses to group parts of an expression together. They work exactly as you would expect.
 
+!!! warning "Unsupported operations"
+    Multiplication (`*`), division (`/`), and modulo (`%`) operations are not supported.
+    
+    Getting a little into the technical quirks of Pekora being a Python program, matrix multiplication (`@`) and 
+    assignment (`=`) operations are also not supported.
+
+
 [^1]: https://en.wikipedia.org/wiki/Intersection_(set_theory)
 
 ## Comparators
@@ -361,7 +368,7 @@ Pekora supports the use of standard mathematical comparators[^2] to compare perm
 
 [^2]: These are technically called "relational operators". Pekora refers to them as "comparators".
 
-!!! note
+!!! info
 
     So far, you've only seen Pekora expressions evalute to integers. However, Pekora expressions with comparators
     evaluate to either `True` or `False`.
@@ -378,8 +385,8 @@ value will be `True` if the permissions in $A$ are different than those in $B$ a
 
 !!! warning "Equality comparators are lone wolves"
 
-    If you use an equality (`==`) or inequality (`!=`) comparator in an expression, it must be the **only** comparator
-    in the expression.
+    If you use an equality (`==`) or inequality (`!=`) comparator in a Pekora expression, it must be the **only** 
+    comparator in that expression.
 
 ### Greater Than (`>`)
 
@@ -389,7 +396,7 @@ and `False` otherwise.
 
 #### Greater Than or Equal To (`>=`)
 
-Given the expression $A \geq B$, the resulting value will be `True` if both $A > B$ and $A == B$ are
+Given the expression $A \geq B$, the resulting value will be `True` if either $A > B$ or $A == B$ are
 `True`, and `False` otherwise.
 
 ### Less Than (`<`)
@@ -400,7 +407,7 @@ not in $A$, and `False` otherwise.
 
 #### Less Than or Equal To (`<=`)
 
-Given the expression $A \leq B$, the resulting value will be `True` if both $A < B$ and $A == B$ are
+Given the expression $A \leq B$, the resulting value will be `True` if either $A < B$ or $A == B$ are
 `True`, and `False` otherwise.
 
 !!! tip "Combining comparators"

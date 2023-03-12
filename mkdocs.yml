@@ -19,14 +19,9 @@ theme:
     - content.action.view
     - content.code.annotate
     - content.code.copy
-    # - content.tabs.link
     - content.tooltips
-    # - header.autohide
-    # - navigation.expand
     - navigation.footer
     - navigation.indexes
-    # - navigation.instant
-    # - navigation.prune
     - navigation.sections
     - navigation.top
     - navigation.tracking
@@ -34,7 +29,7 @@ theme:
     - search.share
     - search.suggest
     - toc.follow
-    # - toc.integrate
+    - toc.integrate
   palette:
     - scheme: indigo
       primary: indigo
@@ -55,6 +50,9 @@ theme:
   icon:
     logo: fontawesome/solid/carrot
     repo: fontawesome/brands/github
+    admonition:
+      tip: material/lightbulb-on
+      danger: material/fire
 
 # Plugins
 plugins:
@@ -113,8 +111,6 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
-  - pymdownx.tasklist:
-      custom_checkbox: true
   - pymdownx.tilde
   - pymdownx.arithmatex:
       generic: true
@@ -123,15 +119,18 @@ nav:
   - Introduction: index.md
   - Installing Pekora: install.md
   - Calculating permissions: calculate.md
+  - Reading permissions: read.md
+  - Building permissions: make.md
+  - License: license.md
 
 extra_css:
   - css/termynal.css
-  - css/extra.css
+  - css/custom.css
 
 extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js
   - js/termynal.js
-  - js/extra.js
+  - js/custom.js
   - js/mathjax.js
