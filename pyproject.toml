@@ -1,12 +1,14 @@
 [tool.poetry]
 name = "pekora"
-version = "1.0.0"
+version = "0.0.1"
 description = "A command-line-calculator for Discord permission values"
 authors = ["celsius narhwal <hello@celsiusnarhwal.dev>"]
 readme = "README.md"
 license = "MIT"
+homepage = "https://pekora.celsiusnarhwal.dev"
 documentation = "https://pekora.celsiusnarhwal.dev"
 repository = "https://github.com/celsiusnarhwal/pekora"
+include = ["LICENSE.md"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
