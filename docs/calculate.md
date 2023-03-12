@@ -2,10 +2,6 @@
 
 You can calculate permissions with `pekora calc`. You already saw an example of this in the [introduction](/).
 
-!!! note inline end
-    By the way, these animated command prompts are used throughout the documentation. The formatting might look off
-    if you're on a mobile device. Sorry!
-
 <div class="termy">
 
 ```console
@@ -17,11 +13,14 @@ $ pekora calc "read_messages + send_messages"
 
 </div>
 
+!!! note
+    By the way, these animated command prompts are used throughout the documentation. The formatting might look off
+    if you're on a mobile device. Sorry!
 
 `pekora calc` takes a special kind of math-like expression called a **Pekora expression**. Pekora expressions can
 contain three types of values: **permission values**, **operators**, and **comparators**.
 
-!!! tip
+!!! tip inline end
     You don't have to quote a Pekora expresssion that only contains one value. `pekora calc "3072"`, for instance, 
     is just as valid as `pekora calc 3072`.
 
