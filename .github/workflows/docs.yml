@@ -1,0 +1,37 @@
+name: Publish Documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - docs/**
+      - mkdocs.yml
+      - .github/workflows/docs.yml
+
+permissions:
+  contents: write
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11.1
+
+      - name: Set Up Poetry
+        run: pipx install poetry==1.3.2
+
+      - name: Set Up Cache
+        uses: actions/cache@v3
+
+      - name: Install Dependencies
+        run: poetry install --only docs
+
+      - name: Deploy Documentation
+        run: poetry run mkdocs gh-deploy --force
