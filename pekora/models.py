@@ -34,7 +34,7 @@ class PekoraPermissions(discord.Permissions):
 
 
 class PekoraPattern(StrEnum):
-    # These values must be ordered by match precedence.
+    # Patterns must be ordered by match precedence.
     GROUP = r"pekora\.(?P<group>\w+)"
     INTEGER = r"\d+"
     FLAG = r"\w+"
