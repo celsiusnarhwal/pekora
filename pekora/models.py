@@ -35,7 +35,7 @@ class PekoraPermissions(discord.Permissions):
 
 class PekoraPattern(StrEnum):
     # These values must be ordered by match precedence.
-    GROUP = r"pekora\.\w+"
+    GROUP = r"pekora\.(?P<group>\w+)"
     INTEGER = r"\d+"
     FLAG = r"\w+"
     COMPARATOR = r"==|!=|[<>]=?"
@@ -58,7 +58,7 @@ class PekoraPattern(StrEnum):
 
 
 class PekoraProperties(BaseModel):
-    class Category(StrEnum):
+    class Type(StrEnum):
         FLAG = auto()
         NAME = auto()
         VALUE = auto()
