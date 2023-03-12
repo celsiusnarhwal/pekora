@@ -23,7 +23,9 @@ yarl = "^1.8.2"
 typer = { extras = ["all"], version = "^0.7.0" }
 
 [tool.poetry.group.docs.dependencies]
+cairosvg = "^2.6.0"
 mkdocs-material = "^9.1.2"
+pillow = "^9.4.0"
 
 [tool.poetry.group.repl.dependencies]
 ipython = "^8.11.0"
