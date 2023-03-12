@@ -147,10 +147,10 @@ def read(
         permission = sys.stdin.read()
 
     if not re.match(
-        "|".join(map(str, PekoraPattern.permissions())) + "$",
+        f"({'|'.join(map(str, PekoraPattern.permissions()))})$",
         permission,
     ):
-        raise Otsupeko(f"Invalid permission: {permission}")
+        raise Otsupeko(f"Invalid permission value: {permission}")
 
     include = (set(include) or set(PekoraProperties.Type)) - set(exclude)
 
@@ -212,10 +212,10 @@ def make(
 
     if start:
         if not re.match(
-            "|".join(map(str, PekoraPattern.permissions())) + "$",
+            f"({'|'.join(map(str, PekoraPattern.permissions()))})$",
             start,
         ):
-            raise Otsupeko(f"Invalid expression: {start}")
+            raise Otsupeko(f"Invalid permission value: {start}")
 
         permissions += PekoraPermissions(utils.ninjin(start))
 
