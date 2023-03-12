@@ -1,3 +1,7 @@
+---
+description: Calculate permissions from your terminal
+---
+
 # Calculating Permissions
 
 You can calculate permissions with `pekora calc`. You already saw an example of this in the [introduction](/).

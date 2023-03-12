@@ -1,3 +1,7 @@
+---
+description: Interactively build permissions from your terminal
+---
+
 # Building Permissions
 
 You can interactively build permissions with `pekora make`.

@@ -2,6 +2,7 @@
 site_name: Pekora
 site_url: https://pekora.celsiusnarhwal.dev
 site_author: celsius narhwal
+site_description: A command-line calculator for Discord permission values
 
 # Repository
 repo_name: celsiusnarhwal/pekora
@@ -60,6 +61,7 @@ theme:
 plugins:
   - search:
       separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - social
 
 # Customization
 extra:

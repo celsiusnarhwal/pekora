@@ -1,3 +1,7 @@
+---
+description: Learn how to install Pekora
+---
+
 # Installing Pekora
 
 ### With pipx <small>recommended</small> { #with-pipx data-toc-label="With pipx" }

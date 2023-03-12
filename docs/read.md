@@ -1,3 +1,7 @@
+---
+description: Get detailed information about a permission
+---
+
 # Reading Permissions
 
 You use `pekora read` to get detailed information about the permissions a value represents.

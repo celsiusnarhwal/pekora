@@ -1,3 +1,7 @@
+---
+description: A command-line calculator for Discord permission values
+---
+
 # Pekora
 
 Pekora is a command-line calculator for Discord permission values. With it, you can calculate permission values, see
