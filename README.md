@@ -1,10 +1,32 @@
 # Pekora
 
-Pekora is a calculator for Discord permission values. With it, you can calculate permission values see detailed
+Pekora is a calculator for Discord permission values. With it, you can calculate permission values, see detailed
 information about the permissions a value represents, and interactively build your own
 permissions.
 
-For installation instructions and documentation, see [Pekora's website](https://pekora.celsiusnarhwal.dev).
+## Installation
+
+### pipx (recommended)
+
+[Install pipx](https://pypa.github.io/pipx/installation/), then run:
+
+```bash
+pipx install pekora
+```
+
+### Homebrew (macOS and Linux only)
+
+[Homebrew](https://brew.sh) users can install Pekora from the
+[Houkago Tea Tap](https://github.com/celsiusnarhwal/homebrew-htt).
+
+```bash
+brew tap celsiusnarhwal/htt
+brew install pekora
+```
+
+## Documentation
+
+For documentation, including usage instructions, see [Pekora's website](https://pekora.celsiusnarhwal.dev).
 
 ## License
 
