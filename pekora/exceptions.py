@@ -28,6 +28,6 @@ class Otsupeko(PekoraProblem, ClickException):
 
     @validate_arguments
     def __init__(self, message: str, code: Annotated[int, Field(ge=1, le=255)] = 1):
-        ClickException.__init__(self, message)
+        ClickException.__init__(self, message.strip())
         setattr(self, "ctx", get_context())
         self.exit_code = code
