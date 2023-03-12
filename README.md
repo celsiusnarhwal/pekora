@@ -1,5 +1,9 @@
 # Pekora
 
+[![PyPI](https://img.shields.io/pypi/v/pekora?logo=pypi&color=green&logoColor=white&style=for-the-badge)](https://pypi.org/project/pekora)
+[![PyPI - License](https://img.shields.io/pypi/l/pekora?color=03cb98&style=for-the-badge)](https://github.com/celsiusnarhwal/pekora/blob/main/LICENSE.md)
+[![Code style: Black](https://aegis.celsiusnarhwal.dev/badge/black?style=for-the-badge)](https://github.com/psf/black)
+
 Pekora is a calculator for Discord permission values. With it, you can calculate permission values, see detailed
 information about the permissions a value represents, and interactively build your own
 permissions.
