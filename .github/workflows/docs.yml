@@ -28,6 +28,9 @@ jobs:
       - name: Install Dependencies
         run: poetry install --only docs
 
+      - name: Build Documentation
+        run: poetry run mkdocs build
+
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v1
         with:
