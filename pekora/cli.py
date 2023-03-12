@@ -50,11 +50,8 @@ def calculate(
     """
 
     def evaluate(expr: str) -> int:
-        return eval(
-            re.compile("|".join((str(p) for p in PekoraPattern.all()))).sub(
-                lambda x: str(utils.ninjin(x.group())), expr
-            )
-        )
+        pattern = re.compile("|".join((str(p) for p in PekoraPattern.all())))
+        return eval(pattern.sub(lambda x: str(utils.ninjin(x.group())), expr))
 
     # Split the expression on its comparators.
     parts = list(filter(None, re.split(rf"({PekoraPattern.COMPARATOR})", expression)))
@@ -111,7 +108,7 @@ def read(
         show_default=False,
         allow_dash=True,
     ),
-    include: list[PekoraProperties.Category] = typer.Option(
+    include: list[PekoraProperties.Type] = typer.Option(
         None,
         "--with",
         "--include",
@@ -120,7 +117,7 @@ def read(
         show_default=False,
         rich_help_panel="Format Options",
     ),
-    exclude: list[PekoraProperties.Category] = typer.Option(
+    exclude: list[PekoraProperties.Type] = typer.Option(
         None,
         "--without",
         "--exclude",
@@ -155,7 +152,7 @@ def read(
     ):
         raise Otsupeko(f"Invalid permission: {permission}")
 
-    include = (set(include) or set(PekoraProperties.Category)) - set(exclude)
+    include = (set(include) or set(PekoraProperties.Type)) - set(exclude)
 
     if not include:
         raise Otsupeko("You must include at least one data category.")
@@ -239,7 +236,6 @@ def make(
             border=True,
             transformer=lambda v: inflect.no("permission", len(v)),
             filter=lambda v: PekoraPermissions.from_flags(*v),
-            raise_keyboard_interrupt=True,
         ).execute()
 
         print(
