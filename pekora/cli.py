@@ -110,8 +110,8 @@ def read(
     ),
     include: list[PekoraProperties.Type] = typer.Option(
         None,
-        "--with",
         "--include",
+        "--with",
         "-i",
         help="Explicitly include a data category, excluding all others not passed with -i.",
         show_default=False,
@@ -119,8 +119,8 @@ def read(
     ),
     exclude: list[PekoraProperties.Type] = typer.Option(
         None,
-        "--without",
         "--exclude",
+        "--without",
         "-e",
         "-x",
         help="Explicitly exclude a data category. Supersedes -i.",
