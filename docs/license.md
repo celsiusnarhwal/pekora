@@ -1,6 +1,6 @@
 # License
 
-Pekora's documentation is licensed under a Creative Commons Attribution 4.0 International Public License (CC BY 4.0). In
+Pekora's documentation is licensed under a Creative Commons Attribution 4.0 International License (CC BY 4.0). In
 summary, this means you can do whatever you want with Pekora's documentation as long as you give credit to its
 original author, [celsius narhwal](https://celsiusnarhwal.dev).
 
