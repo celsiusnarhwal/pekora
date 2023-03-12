@@ -30,4 +30,5 @@ For documentation, including usage instructions, see [Pekora's website](https://
 
 ## License
 
-Pekora is licesned under the [MIT License](https://github.com/celsiusnarhwal/pekora/blob/main/LICENSE.md).
+Pekora is licesned under the [MIT License](https://github.com/celsiusnarhwal/pekora/blob/main/LICENSE.md). It's
+documentation is licensed under [CC BY 4.0](https://pekora.celsiusnarhwal.dev/license).
