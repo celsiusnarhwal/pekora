@@ -20,12 +20,11 @@ pyperclip = "1.8.1"
 yarl = "^1.8.2"
 typer = { extras = ["all"], version = "^0.7.0" }
 
-[tool.poetry.group.repl.dependencies]
-ipython = "^8.11.0"
-
 [tool.poetry.group.docs.dependencies]
 mkdocs-material = "^9.1.2"
-termynal = "^0.2.1"
+
+[tool.poetry.group.repl.dependencies]
+ipython = "^8.11.0"
 
 [tool.poetry.scripts]
 pekora = "pekora.cli:app"
