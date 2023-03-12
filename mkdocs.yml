@@ -31,13 +31,15 @@ theme:
     - toc.follow
     - toc.integrate
   palette:
-    - scheme: indigo
+    - media: "(prefers-color-scheme: light)"
+      scheme: indigo
       primary: indigo
       accent: indigo
       toggle:
         icon: material/brightness-7
         name: Dark mode
-    - scheme: slate
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
       primary: indigo
       accent: indigo
       toggle:
