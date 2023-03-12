@@ -32,7 +32,7 @@ $ pekora read 66061056
 
 </div>
 
-Like `pekora calc`, `pekora read` accepts Discord permission flags, integer valeus, and Pekora permission groups. 
+Like `pekora calc`, `pekora read` accepts Discord permission flags, integer values, and Pekora permission groups. 
 
 `pekora read`'s output is separated into three categories:
 
@@ -48,8 +48,8 @@ Like `pekora calc`, `pekora read` accepts Discord permission flags, integer vale
 !!! tip inline end "Filtering multiple categories"
     You can pass multiple categories to `--include` or `--exclude` by specifying the respective option multiple times.
 
-You can filter the output of `pekora read` with the `--include` and `--exclude` options. The `--include` options 
-lets you specify what categories should be included, implicitly excluding everything else; the `--exclude` options
+You can filter the output of `pekora read` with the `--include` and `--exclude` options. The `--include` option
+lets you specify what categories should be included, implicitly excluding everything else; the `--exclude` option
 lets you specify what categories should be excluded.
 
 Both options take the same argument: one of `flag`, `name`, or `value`, based on the category you want to include 
@@ -114,14 +114,14 @@ You can use the output of `pekora calc` as input to `pekora read`.
 ```console
 $ pekora calc "embed_links + use_external_emojis" -r | pekora read -
 
-┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
-┃ Flag            ┃ Name                     ┃ Value       ┃
-┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
-│ embed_links     │ Embed Links              │ 16384       │
-│ external_emojis │ Use External Emoji       │ 262144      │
-│ manage_threads  │ Manage Threads and Posts │ 17179869184 │
-└─────────────────┴──────────────────────────┴─────────────┘
-                 Derived from: 17180147712   
+┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓
+┃ Flag            ┃ Name               ┃ Value  ┃
+┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━┩
+│ embed_links     │ Embed Links        │ 16384  │
+│ external_emojis │ Use External Emoji │ 262144 │
+└─────────────────┴────────────────────┴────────┘
+              Derived from: 278528
+
 ```
 
 </div>

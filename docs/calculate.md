@@ -30,12 +30,12 @@ contain three types of values: **permission values**, **operators**, and **compa
 
 ## Permission Values
 
-A permission value is any value that represents a Discord permissions. Permision values can be **Discord permission
+A permission value is any value that represents a Discord permission. Permision values can be **Discord permission
 flags**, **integers**, or **Pekora permission groups**.
 
 ### Discord permission flags
 
-A Discord permission flag is a `snake_case` string that represdents a single permission. `read_messages` and
+A Discord permission flag is a `snake_case` string that represents a single permission. `read_messages` and
 `send_messages`, as you've surely realized by now, are examples of Discord permission flags. Other flags include
 `add_reactions`, `attach_files`, and `manage_messages`. If you're acquainted with Discord's permissions system (as
 any Pekora user should be!), the names of these flags should be ringing bells.
