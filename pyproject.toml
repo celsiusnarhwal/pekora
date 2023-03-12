@@ -32,6 +32,7 @@ pekora = "pekora.cli:app"
 
 [tool.poe.tasks]
 format = { shell = "for hook in black isort prettier; do pre-commit run $hook --all-files; done" }
+docs = { shell = "mkdocs serve" }
 
 [tool.black]
 line-length = 88
