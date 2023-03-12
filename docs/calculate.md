@@ -364,7 +364,7 @@ Pekora supports the use of parantheses to group parts of an expression together.
     Getting a little into the technical quirks of Pekora being a Python program, matrix multiplication (`@`) and 
     assignment (`=`) operations are also not supported.
 
-[^1]: https://en.wikipedia.org/wiki/Intersection_(set_theory)
+[^1]: [https://en.wikipedia.org/wiki/Intersection_(set_theory)](https://en.wikipedia.org/wiki/Intersection_(set_theory))
 
 ## Comparators
 
