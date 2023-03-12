@@ -36,8 +36,6 @@ class Pekora(typer.Typer):
         try:
             super().__call__(*args, **kwargs)
         except Exception as e:  # Yes, we really do want to catch *everything*.
-            # PekoraProblem is a ClickException so Typer will handle those before we even get here.
-
             if e is typer.Exit:  # "except typer.Exit: pass" doesn't work, apparently.
                 return
 
