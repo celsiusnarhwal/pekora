@@ -5,7 +5,6 @@ from typing import Callable
 
 import typer
 from colour import Color
-from pydantic import validate_arguments
 from yarl import URL
 
 from pekora.exceptions import *
@@ -29,9 +28,7 @@ def ninjin(term: str) -> str | int:
 
     Returns
     -------
-    str | int
-        Returns a string representation of the operator if the term is an operator. Otherwise, returns the integer
-        value of the permission set represented by th term.
+        The integer value of the permission set represented by the term.
 
     """
     # Handle integers.
@@ -40,16 +37,15 @@ def ninjin(term: str) -> str | int:
 
     # Handle Discord permission flags.
     if term in PekoraPermissions.VALID_FLAGS:
-        return PekoraPermissions(**{term: True}).value
+        return PekoraPermissions.from_flags(term).value
 
     # Handle Pekora permission groups.
-    match term.split("."):
-        case ["pekora", group_name]:
-            if isinstance(
-                group := getattr(PekoraPermissions, group_name, None), Callable
-            ):
-                if isinstance(permissions := group(), PekoraPermissions):
-                    return permissions.value
+    if match := PekoraPattern.GROUP.regex.match(term):
+        if isinstance(
+            group := getattr(PekoraPermissions, match.group("group"), None), Callable
+        ):
+            if isinstance(permissions := group(), PekoraPermissions):
+                return permissions.value
 
     # Handle unsupported operators.
     if PekoraPattern.UNSUPPORTED.regex.match(term):
