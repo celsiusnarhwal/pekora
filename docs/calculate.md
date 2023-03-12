@@ -2,6 +2,10 @@
 
 You can calculate permissions with `pekora calc`. You already saw an example of this in the [introduction](/).
 
+!!! note inline end
+    By the way, these animated command prompts are used throughout the documentation. The formatting might look off
+    if you're on a mobile device. Sorry!
+
 <div class="termy">
 
 ```console
@@ -12,6 +16,7 @@ $ pekora calc "read_messages + send_messages"
 ```
 
 </div>
+
 
 `pekora calc` takes a special kind of math-like expression called a **Pekora expression**. Pekora expressions can
 contain three types of values: **permission values**, **operators**, and **comparators**.
@@ -358,7 +363,6 @@ Pekora supports the use of parantheses to group parts of an expression together.
     
     Getting a little into the technical quirks of Pekora being a Python program, matrix multiplication (`@`) and 
     assignment (`=`) operations are also not supported.
-
 
 [^1]: https://en.wikipedia.org/wiki/Intersection_(set_theory)
 
