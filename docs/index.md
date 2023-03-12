@@ -1,4 +1,5 @@
 ---
+title: Pekora
 description: A command-line calculator for Discord permission values
 ---
 
