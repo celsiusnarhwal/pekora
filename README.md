@@ -26,9 +26,9 @@ brew install pekora
 
 ## Documentation
 
-For documentation, including usage instructions, see [Pekora's website](https://pekora.celsiusnarhwal.dev).
+For documentation, including usage instructions, visit [Pekora's website](https://pekora.celsiusnarhwal.dev).
 
 ## License
 
-Pekora is licesned under the [MIT License](https://github.com/celsiusnarhwal/pekora/blob/main/LICENSE.md). It's
+Pekora is licesned under the [MIT License](https://github.com/celsiusnarhwal/pekora/blob/main/LICENSE.md). Its
 documentation is licensed under [CC BY 4.0](https://pekora.celsiusnarhwal.dev/license).
