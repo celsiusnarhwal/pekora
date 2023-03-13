@@ -98,10 +98,6 @@ something's missing, <a href="https://github.com/celsiusnarhwal/pekora/issues/ne
 Integers are, well, integers. Like we covered in the [introduction](/), any set of Discord permissions can be
 represented as an integer. You can use these integers in Pekora expressions.
 
-!!! example "Technical Note"
-    Behind the scenes, Discord permission flags and Pekora permission groups are converted to integers before a
-    Pekora expression is evaluated.
-
 <div class="termy">
 
 ```console
