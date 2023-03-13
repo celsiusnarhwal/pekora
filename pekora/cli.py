@@ -49,7 +49,7 @@ def calculate(
     Evaluate an expression.
     """
 
-    def evaluate(expr: str) -> int:
+    def evaluate(expr: str) -> PekoraPermissions:
         pattern = re.compile("|".join((str(p) for p in PekoraPattern.all())))
         return eval(pattern.sub(lambda x: str(utils.ninjin(x.group())), expr))
 
@@ -81,10 +81,6 @@ def calculate(
     # Imbalanced comparators.
     else:
         raise Otsupeko("Comparators must have an expression on both sides.")
-
-    if result < 0:
-        # If the result is negative, this will make it positive without losing any permission data.
-        result = PekoraPermissions.from_flags(*PekoraPermissions(result).flags)
 
     print(
         result
@@ -157,7 +153,7 @@ def read(
     if not include:
         raise Otsupeko("You must include at least one data category.")
 
-    permset = PekoraPack.from_permissions(PekoraPermissions(utils.ninjin(permission)))
+    permset = PekoraPack.from_permissions(eval(utils.ninjin(permission)))
 
     json = permset.json(
         include={
@@ -217,7 +213,7 @@ def make(
         ):
             raise Otsupeko(f"Invalid permission value: {start}")
 
-        permissions += PekoraPermissions(utils.ninjin(start))
+        permissions += eval(utils.ninjin(start))
 
     choices = []
     for flag, name in alianator.resolutions(escape_mentions=False).items():

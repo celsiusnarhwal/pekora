@@ -12,9 +12,9 @@ from pekora.models import *
 
 
 @validate_arguments
-def ninjin(term: str) -> str | int:
+def ninjin(term: str) -> str:
     """
-    Convert a Pekora expression term to a Python literal.
+    Convert a Pekora expression term to a string that eval() can turn into a :class:`PekoraPermissions` object.
 
     Pekora expression terms are:
     - Integers
@@ -28,25 +28,25 @@ def ninjin(term: str) -> str | int:
 
     Returns
     -------
-        The integer value of the permission set represented by the term.
+    str
+        A string that eval() can turn into a :class:`PekoraPermissions` object.
 
     """
     # Handle integers.
     if PekoraPattern.INTEGER.regex.match(term):
-        return int(term)
+        return f"PekoraPermissions({term})"
 
     # Handle Discord permission flags.
     if term in PekoraPermissions.VALID_FLAGS:
-        return PekoraPermissions.from_flags(term).value
+        return f"PekoraPermissions.from_flags('{term}')"
 
     # Handle Pekora permission groups.
     if match := PekoraPattern.GROUP.regex.match(term):
+        group = match.group("group")
         try:
-            if isinstance(
-                group := getattr(PekoraPermissions, match.group("group")), Callable
-            ):
-                if isinstance(permissions := group(), PekoraPermissions):
-                    return permissions.value
+            if isinstance(method := getattr(PekoraPermissions, group), Callable):
+                if isinstance(method(), PekoraPermissions):
+                    return f"PekoraPermissions.{group}()"
                 else:
                     raise TypeError
             else:
