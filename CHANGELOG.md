@@ -4,6 +4,12 @@ All notable changes to Pekora will be documented here. Breaking changes are mark
 
 Pekora adheres to [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## <a name="1-0-3">[1.0.3] - 2023-03-14</a>
+
+### Fixed
+
+- Fixed a bug where passing negative numbers to `pekora read` or `pekora make --from` would cause an error.
+
 ## <a name="1-0-2">[1.0.2] - 2023-03-13</a>
 
 ### Fixed
