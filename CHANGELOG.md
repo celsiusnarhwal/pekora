@@ -4,6 +4,10 @@ All notable changes to Pekora will be documented here. Breaking changes are mark
 
 Pekora adheres to [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## <a name="1-0-4">[1.0.4] - 2023-03-14</a>
+
+No user-facing changes are introduced in this release.
+
 ## <a name="1-0-3">[1.0.3] - 2023-03-14</a>
 
 ### Fixed

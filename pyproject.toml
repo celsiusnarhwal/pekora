@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pekora"
-version = "1.0.3"
+version = "1.0.4"
 description = "A command-line calculator for Discord permission values"
 authors = ["celsius narhwal <hello@celsiusnarhwal.dev>"]
 readme = "README.md"
