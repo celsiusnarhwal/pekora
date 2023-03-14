@@ -17,7 +17,6 @@ theme:
   custom_dir: docs/overrides
   features:
     - announce.dismiss
-    - content.action.view
     - content.code.annotate
     - content.code.copy
     - content.tooltips
@@ -65,8 +64,6 @@ plugins:
 
 # Customization
 extra:
-  annotate:
-    json: [.s2]
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/celsiusnarhwal
