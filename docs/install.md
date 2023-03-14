@@ -9,8 +9,14 @@ description: Learn how to install Pekora
 [Install pipx](https://pypa.github.io/pipx/installation/), then run:
 
 ```bash
-pipx install pekora
+pipx install pekora # (1)!
 ```
+
+1. If you prefer, you can also run Pekora ephemerally without installing it:
+   ```bash
+   pipx run pekora
+   ```
+   You'll have to do this *every* time you want to use Pekora, though.
 
 ### With Homebrew <small>macOS and Linux only</small> { #with-homebrew data-toc-label="With Homebrew" }
 
