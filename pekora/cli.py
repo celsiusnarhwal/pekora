@@ -122,7 +122,7 @@ def read(
         None,
         "--json",
         help="Output the result as JSON.",
-        rich_help_panel="Format Options",
+        rich_help_panel="Filter and Format",
     ),
     copy: bool = typer.Option(
         None,
