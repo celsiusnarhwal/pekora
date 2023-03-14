@@ -41,7 +41,7 @@ Like `pekora calc`, `pekora read` accepts Discord permission flags, integer valu
 - **Value**: The integer value of the permission.
 
 
-## Filtering the Output
+## Filtering the output
 
 
 
@@ -105,7 +105,7 @@ $ pekora read 66061056 --json
 !!! tip
     `--include` and `--exclude` work with JSON-formatted output, too.
 
-## Using Calculations
+## Using calculations
 
 You can use the output of `pekora calc` as input to `pekora read`.
 

@@ -28,7 +28,7 @@ contain three types of values: **permission values**, **operators**, and **compa
     You don't have to quote a Pekora expresssion that only contains one value. `pekora calc "3072"`, for instance, 
     is just as valid as `pekora calc 3072`.
 
-## Permission Values
+## Permission values
 
 A permission value is any value that represents a Discord permission. Permision values can be **Discord permission
 flags**, **integers**, or **Pekora permission groups**.
