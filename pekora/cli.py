@@ -106,7 +106,7 @@ def read(
         "-i",
         help="Explicitly include a data category, excluding all others not passed with -i.",
         show_default=False,
-        rich_help_panel="Format Options",
+        rich_help_panel="Filter and Format",
     ),
     exclude: list[PekoraProperties.Type] = typer.Option(
         None,
@@ -116,7 +116,7 @@ def read(
         "-x",
         help="Explicitly exclude a data category. Supersedes -i.",
         show_default=False,
-        rich_help_panel="Format Options",
+        rich_help_panel="Filter and Format",
     ),
     as_json: bool = typer.Option(
         None,
