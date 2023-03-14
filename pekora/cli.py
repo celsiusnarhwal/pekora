@@ -56,13 +56,8 @@ def calculate(
     # Split the expression on its comparators.
     parts = list(filter(None, re.split(rf"({PekoraPattern.COMPARATOR})", expression)))
 
-    # No comparators.
-    if len(parts) == 1:
-        result = evaluate(*parts)
-
     # Balanced comparators.
-    elif len(parts) % 2:
-        # Equality comparators must stand alone.
+    if len(parts) % 2:
         if len(parts) > 3 and set(parts).intersection({"==", "!="}):
             raise Otsupeko(
                 "An equality comparator may not be used in the same expression as other comparators "
@@ -195,7 +190,7 @@ def read(
 def make(
     ctx: typer.Context = None,
     start: str = typer.Option(
-        None,
+        0,
         "--from",
         help="A permission flag, integer value, or Pekora permission group representing the permissions to start with.",
         show_default=False,
@@ -204,16 +199,13 @@ def make(
     """
     Interactively create a permission.
     """
-    permissions = PekoraPermissions()
+    if not re.match(
+        f"({'|'.join(map(str, PekoraPattern.permissions()))})$",
+        start,
+    ):
+        raise Otsupeko(f"Invalid permission value: {start}")
 
-    if start:
-        if not re.match(
-            f"({'|'.join(map(str, PekoraPattern.permissions()))})$",
-            start,
-        ):
-            raise Otsupeko(f"Invalid permission value: {start}")
-
-        permissions += eval(utils.ninjin(start))
+    permissions = eval(utils.ninjin(start))
 
     choices = []
     for flag, name in alianator.resolutions(escape_mentions=False).items():
