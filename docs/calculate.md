@@ -142,6 +142,11 @@ $ pekora calc "(pekora.text - 3072) + create_instant_invite"
 A handful of Pekora permission groups exist. You can see them all and the permissions they include by expanding the
 dropdown below.
 
+!!! example inline end "Technical Note"
+
+    Pekora uses [Pycord](https://pycord.dev) for permission resolution. Each Pekora permission group corresponds to
+    a method of the [`discord.Permissions`](https://docs.pycord.dev/en/stable/api/data_classes.html#permissions) class.
+
 <details>
 <summary>All Pekora permission groups</summary>
 
@@ -325,11 +330,6 @@ dropdown below.
 
 </details>
 
-!!! example "Technical Note"
-
-    Pekora uses [Pycord](https://pycord.dev) for permission resolution. Each Pekora permission group corresponds to
-    a method of the [`discord.Permissions`](https://docs.pycord.dev/en/stable/api/data_classes.html#permissions) class.
-
 ## Operators
 
 Pekora, being a calculator, naturally supports a range of mathematical operations.
@@ -353,15 +353,19 @@ resulting value will represent all permissions that are in $A$ but **not** in $B
 The intersection operator calculates the intersection[^1] between two permission values. Given the expression $A \& B$,
 the resulting value will represent all permissions that are in **both** $A$ and $B$.
 
+### Inversion (`~`)
+
+The inversion operator inverts a permission value. Given the expression $\sim A$, the resulting value will 
+represent all
+permissions that are **not** in $A$.
+
 ### Parentheses (`()`)
 
 Pekora supports the use of parantheses to group parts of an expression together. They work exactly as you would expect.
 
 !!! warning "Unsupported operations"
-    Multiplication (`*`), division (`/`), and modulo (`%`) operations are not supported.
-    
-    Getting a little into the technical quirks of Pekora being a Python program, matrix multiplication (`@`) and 
-    assignment (`=`) operations are also not supported.
+    Multiplication (`*`), division (`/`), modulo (`%`), exponentiation (`**`), matrix multiplication (`@`), and
+    assignment (`=`) operators are not supported.
 
 [^1]: [https://en.wikipedia.org/wiki/Intersection_(set_theory)](https://en.wikipedia.org/wiki/Intersection_(set_theory))
 
@@ -385,11 +389,6 @@ be `True` if the permissions in $A$ are the same as those in $B$, and `False` ot
 
 The inequality operator checks if two permission values are not equal. Given the expression $A \neq B$, the resulting
 value will be `True` if the permissions in $A$ are different than those in $B$ and `False` otherwise.
-
-!!! warning "Equality comparators are lone wolves"
-
-    If you use an equality (`==`) or inequality (`!=`) comparator in a Pekora expression, it must be the **only** 
-    comparator in that expression.
 
 ### Greater Than (`>`)
 
@@ -417,3 +416,7 @@ Given the expression $A \leq B$, the resulting value will be `True` if either $A
 
     You can use multiple `<`, `>`, `<=`, and `>=` comparators in a single Pekora expression (e.g. $A < B \leq C$).
     There's no limit to the number of comparators you can use.
+
+!!! warning "Equality comparators can't be combined"
+    If you use an equality (`==`) or inequality (`!=`) comparator in a Pekora expression, it must be the **only** 
+    comparator in that expression.
