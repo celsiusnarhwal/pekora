@@ -36,10 +36,10 @@ class PekoraPermissions(discord.Permissions):
 class PekoraPattern(StrEnum):
     # Patterns must be ordered by match precedence.
     GROUP = r"pekora\.(?P<group>\w+)"
-    INTEGER = r"\d+"
+    INTEGER = r"-?\d+"
     FLAG = r"\w+"
     COMPARATOR = r"==|!=|[<>]=?"
-    UNSUPPORTED = "[*/%@=]"
+    UNSUPPORTED = r"[*/%@=]"
 
     @classmethod
     def all(cls) -> tuple[Self]:
