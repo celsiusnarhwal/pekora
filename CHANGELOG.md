@@ -4,6 +4,13 @@ All notable changes to Pekora will be documented here. Breaking changes are mark
 
 Pekora adheres to [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## <a name="1-0-5">[1.0.5] - 2023-03-16</a>
+
+### Changed
+
+- `pekora calc` can no longer return a negative result. Results that would have previously been negative are now clamped
+  to 0.
+
 ## <a name="1-0-4">[1.0.4] - 2023-03-14</a>
 
 No user-facing changes are introduced in this release.
