@@ -8,9 +8,6 @@ site_description: A command-line calculator for Discord permission values
 repo_name: celsiusnarhwal/pekora
 repo_url: https://github.com/celsiusnarhwal/pekora
 
-# Copyright
-copyright: Copyright &copy; 2023-present celsius narhwal
-
 # Configuration
 theme:
   name: material
@@ -116,6 +113,7 @@ markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
 
+# Navigation
 nav:
   - Pekora: index.md
   - Installing Pekora: install.md
@@ -124,10 +122,13 @@ nav:
   - Building permissions: make.md
   - License: license.md
 
+# CSS
 extra_css:
   - css/termynal.css
   - css/custom.css
+  - https://cdnjs.cloudflare.com/ajax/libs/cc-icons/1.2.1/css/cc-icons.min.css
 
+# JavaScript
 extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
