@@ -51,7 +51,8 @@ def calculate(
 
     def evaluate(expr: str) -> PekoraPermissions:
         pattern = re.compile("|".join((str(p) for p in PekoraPattern.all())))
-        return eval(pattern.sub(lambda x: str(utils.ninjin(x.group())), expr))
+        permissions = eval(pattern.sub(lambda x: str(utils.ninjin(x.group())), expr))
+        return PekoraPermissions.from_flags(*permissions.flags)
 
     # Split the expression on its comparators.
     parts = list(filter(None, re.split(rf"({PekoraPattern.COMPARATOR})", expression)))
