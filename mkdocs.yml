@@ -72,10 +72,6 @@ plugins:
       separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   - social
   - typeset
-  - git-committers:
-      repository: celsiusnarhwal/pekora
-      branch: main
-      enabled: !ENV [MKDOCS_GIT_COMMITTERS, false]
 
 # Extensions
 markdown_extensions:
