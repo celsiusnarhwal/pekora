@@ -1,4 +1,5 @@
 ---
+icon: fontawesome/solid/hammer
 description: Interactively build permissions from your terminal
 ---
 

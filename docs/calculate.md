@@ -1,4 +1,5 @@
 ---
+icon: fontawesome/solid/calculator-simple
 description: Calculate permissions from your terminal
 ---
 
@@ -40,58 +41,57 @@ A Discord permission flag is a `snake_case` string that represents a single perm
 `add_reactions`, `attach_files`, and `manage_messages`. If you're acquainted with Discord's permissions system (as
 any Pekora user should be!), the names of these flags should be ringing bells.
 
-<details>
-<summary>All supported flags</summary>
-<p>Pekora supports all flags listed below. Pekora tries to maintain parity with Discord in this regard; if you notice
-something's missing, <a href="https://github.com/celsiusnarhwal/pekora/issues/new">open an issue</a>.</p>
-    <ul><li><code>create_instant_invite</code></li>
-    <li><code>kick_members</code></li>
-    <li><code>ban_members</code></li>
-    <li><code>administrator</code></li>
-    <li><code>manage_channels</code></li>
-    <li><code>manage_guild</code></li>
-    <li><code>add_reactions</code></li>
-    <li><code>view_audit_log</code></li>
-    <li><code>priority_speaker</code></li>
-    <li><code>stream</code></li>
-    <li><code>view_channel</code></li>
-    <li><code>read_messages</code></li>
-    <li><code>send_messages</code></li>
-    <li><code>send_tts_messages</code></li>
-    <li><code>manage_messages</code></li>
-    <li><code>embed_links</code></li>
-    <li><code>attach_files</code></li>
-    <li><code>read_message_history</code></li>
-    <li><code>mention_everyone</code></li>
-    <li><code>external_emojis</code></li>
-    <li><code>use_external_emojis</code></li>
-    <li><code>view_guild_insights</code></li>
-    <li><code>connect</code></li>
-    <li><code>speak</code></li>
-    <li><code>mute_members</code></li>
-    <li><code>deafen_members</code></li>
-    <li><code>move_members</code></li>
-    <li><code>use_voice_activation</code></li>
-    <li><code>change_nickname</code></li>
-    <li><code>manage_nicknames</code></li>
-    <li><code>manage_roles</code></li>
-    <li><code>manage_permissions</code></li>
-    <li><code>manage_webhooks</code></li>
-    <li><code>manage_emojis</code></li>
-    <li><code>manage_emojis_and_stickers</code></li>
-    <li><code>use_slash_commands</code></li>
-    <li><code>use_application_commands</code></li>
-    <li><code>request_to_speak</code></li>
-    <li><code>manage_events</code></li>
-    <li><code>manage_threads</code></li>
-    <li><code>create_public_threads</code></li>
-    <li><code>create_private_threads</code></li>
-    <li><code>external_stickers</code></li>
-    <li><code>use_external_stickers</code></li>
-    <li><code>send_messages_in_threads</code></li>
-    <li><code>start_embedded_activities</code></li>
-    <li><code>moderate_members</code></li></ul>
-</details>
+??? info "Supported flags"
+    Pekora supports all flags listed below. Pekora tries to maintain parity with Discord in this regard; if you notice
+    something's missing, [open an issue](https://github.com/celsiusnarhwal/pekora/issues/new).
+    
+    * `create_instant_invite`
+    * `kick_members`
+    * `ban_members`
+    * `administrator`
+    * `manage_channels`
+    * `manage_guild`
+    * `add_reactions`
+    * `view_audit_log`
+    * `priority_speaker`
+    * `stream`
+    * `view_channel`
+    * `read_messages`
+    * `send_messages`
+    * `send_tts_messages`
+    * `manage_messages`
+    * `embed_links`
+    * `attach_files`
+    * `read_message_history`
+    * `mention_everyone`
+    * `external_emojis`
+    * `use_external_emojis`
+    * `view_guild_insights`
+    * `connect`
+    * `speak`
+    * `mute_members`
+    * `deafen_members`
+    * `move_members`
+    * `use_voice_activation`
+    * `change_nickname`
+    * `manage_nicknames`
+    * `manage_roles`
+    * `manage_permissions`
+    * `manage_webhooks`
+    * `manage_emojis`
+    * `manage_emojis_and_stickers`
+    * `use_slash_commands`
+    * `use_application_commands`
+    * `request_to_speak`
+    * `manage_events`
+    * `manage_threads`
+    * `create_public_threads`
+    * `create_private_threads`
+    * `external_stickers`
+    * `use_external_stickers`
+    * `send_messages_in_threads`
+    * `start_embedded_activities`
+    * `moderate_members`
 
 ### Integers
 
@@ -147,10 +147,10 @@ dropdown below.
     Pekora uses [Pycord](https://pycord.dev) for permission resolution. Each Pekora permission group corresponds to
     a method of the [`discord.Permissions`](https://docs.pycord.dev/en/stable/api/data_classes.html#permissions) class.
 
-<details>
+<details class="info">
 <summary>All Pekora permission groups</summary>
 
-<details>
+<details class="info">
     <summary><code>pekora.advanced</code></summary>
         <ul>
             <li>
@@ -159,7 +159,7 @@ dropdown below.
         </ul>
 </details>
 
-<details>
+<details class="info">
     <summary><code>pekora.all</code></summary>
     <ul>
         <li><code>create_instant_invite</code></li>
@@ -212,7 +212,7 @@ dropdown below.
     </ul>
 </details>
 
-<details>
+<details class="info">
     <summary><code>pekora.all_channel</code></summary>
         <ul>
             <li><code>create_instant_invite</code></li>
@@ -247,7 +247,7 @@ dropdown below.
         </ul>
 </details>
 
-<details>
+<details class="info">
     <summary><code>pekora.general</code></summary>
         <ul>
             <li><code>manage_channels</code></li>
@@ -261,7 +261,7 @@ dropdown below.
         </ul>
 </details>
 
-<details>
+<details class="info">
     <summary><code>pekora.membership</code></summary>
     <ul>
         <li><code>create_instant_invite</code></li>
@@ -272,19 +272,19 @@ dropdown below.
     </ul>
 </details>
 
-<details>
+<details class="info">
     <summary><code>pekora.none</code></summary>
     <p>No permissions.</p>
 </details>
 
-<details>
+<details class="info">
     <summary><code>pekora.stage</code></summary>
     <ul>
         <li><code>request_to_speak</code></li>
     </ul>
 </details>
 
-<details>
+<details class="info">
     <summary><code>pekora.stage_moderator</code></summary>
     <ul>
         <li><code>mute_members</code></li>
@@ -293,7 +293,7 @@ dropdown below.
     </ul>
 </details>
 
-<details>
+<details class="info">
     <summary><code>pekora.text</code></summary>
     <ul>
         <li><code>add_reactions</code></li>
@@ -314,7 +314,7 @@ dropdown below.
     </ul>
 </details>
 
-<details>
+<details class="info">
     <summary><code>pekora.voice</code></summary>
     <ul>
         <li><code>priority_speaker</code></li>

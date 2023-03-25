@@ -1,4 +1,5 @@
 ---
+icon: fontawesome/solid/book-open-cover
 description: Get detailed information about a permission
 ---
 

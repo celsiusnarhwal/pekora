@@ -10,6 +10,8 @@ on:
       - pyproject.toml
       - .github/workflows/docs.yml
 
+  workflow_dispatch:
+
 jobs:
   build:
     name: Build Documentation
@@ -23,8 +25,8 @@ jobs:
         with:
           python-version: 3.11.1
 
-      - name: Set Up Poetry
-        run: pipx install poetry==1.3.2
+      - name: Install Poetry
+        run: pipx install poetry==1.4.1
 
       - name: Save Cache
         uses: actions/cache@v3
@@ -32,21 +34,38 @@ jobs:
           key: ${{ github.ref }}
           path: .cache
 
+      - name: Install Dependencies
+        run: poetry install --no-root --only docs && poetry run poe fontawesome
+        env:
+          POETRY_REPOSITORIES_MATERIAL_INSIDERS_URL: https://github.com/squidfunk/mkdocs-material-insiders
+          POETRY_HTTP_BASIC_MATERIAL_INSIDERS_USERNAME: celsiusnarhwal
+          POETRY_HTTP_BASIC_MATERIAL_INSIDERS_PASSWORD: ${{ secrets.MATERIAL_INSIDERS_TOKEN }}
+          FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+
       - name: Build Documentation
-        run: poetry install --only docs && poetry run mkdocs build
+        run: poetry run mkdocs build
+        env:
+          MKDOCS_GIT_COMMITTERS: ${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}
 
       - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           path: site
+          name: site
 
   deploy:
-    name: Deploy to GitHub Pages
+    name: Deploy Documentation
     runs-on: ubuntu-latest
     needs: build
-    permissions:
-      pages: write
-      id-token: write
     steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: site
+          path: site
+
       - name: Deploy Documentation
-        uses: actions/deploy-pages@v1
+        run: npx vercel --yes --cwd site --token ${{ secrets.VERCEL_TOKEN }} ${{ github.ref == 'refs/heads/main' && '--prod' || '' }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

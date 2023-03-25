@@ -1,4 +1,5 @@
 ---
+icon: fontawesome/solid/carrot
 description: A command-line calculator for Discord permission values
 ---
 
