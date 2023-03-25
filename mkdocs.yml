@@ -73,7 +73,7 @@ plugins:
   - social
   - typeset
   - git-committers:
-      repository: celsiusnarhwal/3515.games
+      repository: celsiusnarhwal/pekora
       branch: main
       enabled: !ENV [MKDOCS_GIT_COMMITTERS, false]
 
