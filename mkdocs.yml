@@ -128,6 +128,7 @@ extra:
       link: mailto:hello@celsiusnarhwal.dev
     - icon: celsius
       link: https://celsiusnarhwal.dev
+  generator: false
 
 # CSS
 extra_css:
